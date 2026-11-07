@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { IMG, type Genre, type Media, type MovieDetails, titleOf, yearOf } from "@/lib/tmdb";
-import { checkAvailability } from "@/lib/moviez";
+import { checkAvailability } from "@/lib/availability";
 import Row from "./Row";
 import Player from "./Player";
 
