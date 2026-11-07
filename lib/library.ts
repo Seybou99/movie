@@ -91,3 +91,7 @@ export function removeProgress(item: Saved) {
     read<Progress>(PROGRESS_KEY).filter((x) => !same(x, item)),
   );
 }
+
+export function getProgress(item: { id: number; type: "movie" | "tv" }): Progress | undefined {
+  return read<Progress>(PROGRESS_KEY).find((x) => same(x, item));
+}
