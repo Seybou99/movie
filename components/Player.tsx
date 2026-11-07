@@ -60,6 +60,7 @@ export default function Player(props: Props) {
   const isTv = props.type === "tv";
   const [ready, setReady] = useState(false);
   const [reloads, setReloads] = useState(0);
+  const [blockPopups, setBlockPopups] = useState(true);
 
   // Au premier affichage : on reprend la saison / l'épisode enregistrés (après un F5, par ex.).
   useEffect(() => {
@@ -165,6 +166,17 @@ export default function Player(props: Props) {
         >
           ↻ Recharger le lecteur
         </button>
+        <label
+          className="flex items-center gap-2 text-sm text-zinc-400"
+          title="Décocher si la vidéo se fige ou ne passe pas à l'épisode suivant"
+        >
+          <input
+            type="checkbox"
+            checked={blockPopups}
+            onChange={(e) => setBlockPopups(e.target.checked)}
+          />
+          Bloquer les pop-ups
+        </label>
       </div>
       {props.type === "tv" && (
         <p className="mb-3 text-xs text-zinc-500">
@@ -176,11 +188,15 @@ export default function Player(props: Props) {
       <div className="aspect-video w-full overflow-hidden rounded-lg bg-black ring-1 ring-zinc-800">
         {ready && (
           <iframe
-            key={`${src}#${reloads}`}
+            key={`${src}#${reloads}#${blockPopups}`}
             src={src}
             allowFullScreen
             // Bloque les pop-ups / redirections du lecteur (il s'ouvrait dans un nouvel onglet).
-            sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
+            sandbox={
+              blockPopups
+                ? "allow-scripts allow-same-origin allow-forms allow-presentation"
+                : undefined
+            }
             allow="autoplay; fullscreen; picture-in-picture"
             className="h-full w-full border-0"
             title="Lecteur"
