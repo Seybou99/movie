@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Moviez — Films et séries en streaming",
+  title: "AFI BEBE — Films et séries en streaming",
   description: "Site de streaming type Netflix basé sur TMDB et le lecteur moviez.ac",
 };
 

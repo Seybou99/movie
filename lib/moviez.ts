@@ -16,6 +16,7 @@ export function playerUrl(opts: {
   episode?: number;
   lang?: Lang;
   autoplay?: boolean;
+  next?: boolean; // enchaîne automatiquement l'épisode suivant (séries)
 }) {
   const path =
     opts.type === "tv"
@@ -23,6 +24,7 @@ export function playerUrl(opts: {
       : `${BASE}/${opts.tmdbId}`;
   const qs = new URLSearchParams();
   if (opts.autoplay) qs.set("autoplay", "1");
+  if (opts.type === "tv" && opts.next) qs.set("next", "1");
   if (opts.lang && opts.lang !== "auto") qs.set("lang", opts.lang);
   const s = qs.toString();
   return s ? `${path}?${s}` : path;

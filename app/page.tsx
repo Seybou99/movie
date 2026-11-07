@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import ContinueRow from "@/components/ContinueRow";
 import Row from "@/components/Row";
 import { IMG, getByGenre, getList, getTrending, titleOf } from "@/lib/tmdb";
 
@@ -64,6 +65,7 @@ export default function Home() {
         <Hero />
       </Suspense>
       <div className="mt-6">
+        <ContinueRow />
         <Suspense fallback={<p className="px-10 text-zinc-500">Chargement…</p>}>
           <Rows />
         </Suspense>

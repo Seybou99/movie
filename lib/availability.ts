@@ -6,6 +6,7 @@ export type Availability = {
   available?: boolean;
   type?: string;
   languages?: string[];
+  embed?: string;
   [k: string]: unknown;
 };
 

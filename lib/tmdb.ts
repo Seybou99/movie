@@ -14,6 +14,7 @@ export type Media = {
   release_date?: string;
   first_air_date?: string;
   vote_average: number;
+  popularity?: number;
 };
 
 export type Genre = { id: number; name: string };
@@ -95,3 +96,49 @@ export async function getTv(id: number): Promise<TvDetails> {
 
 export const titleOf = (m: Media) => m.title ?? m.name ?? "Sans titre";
 export const yearOf = (m: Media) => (m.release_date ?? m.first_air_date ?? "").slice(0, 4);
+
+export type DiscoverFilters = {
+  genre?: string;
+  year?: string;
+  rating?: string;
+  sort?: string;
+  page?: number;
+};
+
+export async function discover(
+  kind: "movie" | "tv",
+  f: DiscoverFilters,
+): Promise<{ results: Media[]; totalPages: number }> {
+  "use cache";
+  cacheLife("hours");
+  const params: Record<string, string> = {
+    sort_by: f.sort || "popularity.desc",
+    page: String(f.page ?? 1),
+    "vote_count.gte": "100",
+  };
+  if (f.genre) params.with_genres = f.genre;
+  if (f.year) params[kind === "movie" ? "primary_release_year" : "first_air_date_year"] = f.year;
+  if (f.rating) params["vote_average.gte"] = f.rating;
+  const data = await tmdb<List & { total_pages: number }>(`/discover/${kind}`, params);
+  return {
+    results: data.results.map((m) => ({ ...m, media_type: kind })),
+    totalPages: Math.min(data.total_pages, 500),
+  };
+}
+
+export type Person = {
+  id: number;
+  name: string;
+  biography: string;
+  birthday: string | null;
+  place_of_birth: string | null;
+  profile_path: string | null;
+  known_for_department: string;
+  combined_credits?: { cast: Media[] };
+};
+
+export async function getPerson(id: number): Promise<Person> {
+  "use cache";
+  cacheLife("hours");
+  return tmdb<Person>(`/person/${id}`, { append_to_response: "combined_credits" });
+}
