@@ -190,14 +190,14 @@ export default function Player(props: Props) {
           <iframe
             key={`${src}#${reloads}#${blockPopups}`}
             src={src}
-            allowFullScreen
             // Bloque les pop-ups / redirections du lecteur (il s'ouvrait dans un nouvel onglet).
             sandbox={
               blockPopups
                 ? "allow-scripts allow-same-origin allow-forms allow-presentation"
                 : undefined
             }
-            allow="autoplay; fullscreen; picture-in-picture"
+            allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+            referrerPolicy="origin"
             className="h-full w-full border-0"
             title="Lecteur"
           />

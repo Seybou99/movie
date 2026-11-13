@@ -1,12 +1,13 @@
 // Lecteur moviez.ac — voir https://api.moviez.ac/#player
 const BASE = "https://api.moviez.ac";
 
-export type Lang = "auto" | "vf" | "vostfr" | "vo";
+export type Lang = "auto" | "vf" | "vostfr" | "vo" | "multi";
 export const LANGS: { value: Lang; label: string }[] = [
   { value: "auto", label: "Auto" },
   { value: "vf", label: "VF" },
   { value: "vostfr", label: "VOSTFR" },
   { value: "vo", label: "VO" },
+  { value: "multi", label: "Multi" },
 ];
 
 export function playerUrl(opts: {
